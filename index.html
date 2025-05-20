@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulso Matemático - Clases de Matemáticas y Preparación PAES</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/phosphor.js"></script>
+    <style>
+        /* Estilos generales y fuente */
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth; /* Para el desplazamiento suave */
+            background-color: #eff6ff; /* Color de fondo muy claro, azul pálido */
+        }
+        /* Estilo para el botón de WhatsApp (se mantiene verde por convención) */
+        .whatsapp-button {
+            background-color: #25D366;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+        .whatsapp-button:hover {
+            background-color: #1DA851;
+        }
+        /* Estilo para el mensaje de confirmación */
+        #message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        #message-box.show {
+            opacity: 1;
+        }
+        /* Estilo para el área de resultado del explicador IA */
+        #explanation-output {
+            white-space: pre-wrap; /* Mantiene saltos de línea y espacios */
+            word-wrap: break-word; /* Rompe palabras largas */
+            max-height: 400px; /* Altura máxima para el scroll */
+            overflow-y: auto; /* Habilita el scroll vertical */
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border: 1px solid #bfdbfe; /* blue-200 */
+        }
+        #explanation-output::-webkit-scrollbar {
+            width: 8px;
+        }
+        #explanation-output::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        #explanation-output::-webkit-scrollbar-thumb {
+            background: #3b82f6; /* blue-500 */
+            border-radius: 10px;
+        }
+        #explanation-output::-webkit-scrollbar-thumb:hover {
+            background: #2563eb; /* blue-600 */
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div id="message-box" class="hidden"></div>
+
+    <nav class="bg-white shadow-sm p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center flex-wrap">
+            <!-- <a href="#home" class="flex items-center mx-auto text-2xl font-bold text-blue-700 rounded-lg hover:bg-blue-50 transition duration-300">
+                <img src="images/Logo PM.png" alt="Logo Pulso Matemático" class="h-32 mr-2">
+            </a> -->
+
+            <button id="mobile-menu-button" class="lg:hidden text-gray-600 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-2">
+                <i class="ph ph-list text-3xl"></i>
+            </button>
+
+            <div id="nav-links" class="hidden lg:flex flex-col lg:flex-row lg:items-center w-full lg:w-auto mt-4 lg:mt-0 space-y-2 lg:space-y-0 lg:space-x-6">
+                <a href="#home" class="flex items-center mx-auto text-2xl font-bold text-blue-700 rounded-lg hover:bg-blue-50 transition duration-300">
+                    <img src="images/Logo PM.png" alt="Logo Pulso Matemático" class="h-24 mr-2">
+                </a>
+                <a href="#services" class="block text-gray-600 hover:text-blue-700 font-medium px-3 py-2 rounded-md transition duration-300">Servicios</a>
+                <a href="#ai-explainer" class="block text-gray-600 hover:text-blue-700 font-medium px-3 py-2 rounded-md transition duration-300">Explicador IA ✨</a>
+                <a href="#about" class="block text-gray-600 hover:text-blue-700 font-medium px-3 py-2 rounded-md transition duration-300">Sobre Mí</a>
+                <a href="#testimonials" class="block text-gray-600 hover:text-blue-700 font-medium px-3 py-2 rounded-md transition duration-300">Testimonios</a>
+                <a href="#contact" class="block text-gray-600 hover:text-blue-700 font-medium px-3 py-2 rounded-md transition duration-300">Contacto</a>
+                <a href="https://wa.me/56955398707" target="_blank" class="flex items-center text-gray-600 hover:text-green-600 font-medium px-3 py-2 rounded-md transition duration-300">
+                    <i class="ph ph-whatsapp-logo text-2xl mr-1"></i> WhatsApp
+                </a>
+                <a href="#contact" class="bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition duration-300 shadow-md">¡Agenda tu Clase!</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="relative bg-gradient-to-r from-blue-600 to-sky-500 text-white py-20 md:py-32 overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10">
+            <div class="absolute w-40 h-40 bg-white rounded-full -top-10 -left-10"></div>
+            <div class="absolute w-60 h-60 bg-white rounded-full -bottom-20 -right-20"></div>
+            <div class="absolute w-24 h-24 bg-white rounded-md transform rotate-45 top-1/4 left-1/4"></div>
+            <div class="absolute w-32 h-32 bg-white rounded-full bottom-1/3 right-1/4"></div>
+        </div>
+        <div class="container mx-auto text-center px-4 relative z-10">
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6 animate-fade-in-down">
+                Domina las Matemáticas.<br>Conquista la PAES.
+            </h1>
+            <p class="text-lg md:text-xl mb-10 max-w-3xl mx-auto opacity-90 animate-fade-in-up">
+                Clases personalizadas y efectivas para estudiantes de 7° Básico a 4° Medio en Chile.
+            </p>
+            <a href="#contact" class="bg-white text-blue-700 px-8 py-4 rounded-full text-lg font-semibold shadow-xl hover:bg-gray-100 transform hover:scale-105 transition duration-300 ease-in-out inline-block animate-bounce-in">
+                ¡Agenda tu Clase de Prueba Gratuita!
+            </a>
+        </div>
+    </section>
+
+    <section id="services" class="py-16 md:py-24 bg-blue-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center text-blue-800 mb-12">Nuestros Servicios</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-2 border border-blue-100">
+                    <div class="text-blue-600 mb-4 text-5xl text-center">
+                        <i class="ph ph-student"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-4 text-center">Clases Particulares</h3>
+                    <p class="text-gray-600 text-center">
+                        Reforzamiento y apoyo escolar para estudiantes de 7° Básico a 4° Medio. Metodología adaptada a tu ritmo.
+                    </p>
+                    <ul class="text-gray-700 mt-4 space-y-2">
+                        <li class="flex items-center"><i class="ph ph-check-circle text-green-500 mr-2"></i> Preparación de pruebas</li>
+                        <li class="flex items-center"><i class="ph ph-check-circle text-green-500 mr-2"></i> Apoyo en tareas</li>
+                        <li class="flex items-center"><i class="ph ph-check-circle text-green-500 mr-2"></i> Reforzamiento de contenidos</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-2 border border-blue-100">
+                    <div class="text-blue-600 mb-4 text-5xl text-center">
+                        <i class="ph ph-graduation-cap"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-4 text-center">Preparación PAES Matemática</h3>
+                    <p class="text-gray-600 text-center">
+                        Cursos intensivos y personalizados para asegurar tu mejor puntaje en la PAES.
+                    </p>
+                    <ul class="text-gray-700 mt-4 space-y-2">
+                        <li class="flex items-center"><i class="ph ph-check-circle text-green-500 mr-2"></i> Temario completo PAES</li>
+                        <li class="flex items-center"><i class="ph ph-check-circle text-green-500 mr-2"></i> Simulacros y análisis</li>
+                        <li class="flex items-center"><i class="ph ph-check-circle text-green-500 mr-2"></i> Estrategias de resolución</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-2 border border-blue-100">
+                    <div class="text-blue-600 mb-4 text-5xl text-center">
+                        <i class="ph ph-chalkboard-teacher"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-4 text-center">Talleres Intensivos</h3>
+                    <p class="text-gray-600 text-center">
+                        Talleres temáticos durante vacaciones para fortalecer áreas específicas de matemáticas.
+                    </p>
+                    <ul class="text-gray-700 mt-4 space-y-2">
+                        <li class="flex items-center"><i class="ph ph-check-circle text-green-500 mr-2"></i> Álgebra, Geometría, Funciones</li>
+                        <li class="flex items-center"><i class="ph ph-check-circle text-green-500 mr-2"></i> Resolución de problemas</li>
+                        <li class="flex items-center"><i class="ph ph-check-circle text-green-500 mr-2"></i> Grupos reducidos</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-2 border border-blue-100">
+                    <div class="text-blue-600 mb-4 text-5xl text-center">
+                        <i class="ph ph-laptop"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-4 text-center">Asesoría Online</h3>
+                    <p class="text-gray-600 text-center">
+                        Resolución de dudas puntuales y apoyo rápido a través de videollamada.
+                    </p>
+                    <ul class="text-gray-700 mt-4 space-y-2">
+                        <li class="flex items-center"><i class="ph ph-check-circle text-green-500 mr-2"></i> Flexibilidad de horarios</li>
+                        <li class="flex items-center"><i class="ph ph-check-circle text-green-500 mr-2"></i> Respuestas rápidas</li>
+                        <li class="flex items-center"><i class="ph ph-check-circle text-green-500 mr-2"></i> Desde cualquier lugar</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ai-explainer" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-blue-800 mb-12">Explicador Matemático con IA ✨</h2>
+            <div class="max-w-3xl mx-auto bg-blue-50 p-8 rounded-xl shadow-lg border border-blue-100">
+                <p class="text-lg text-gray-700 mb-6 text-center">
+                    ¿Tienes dudas con algún concepto matemático? ¡Pregúntale a nuestra IA y obtén una explicación clara al instante!
+                </p>
+                <div class="space-y-6">
+                    <div>
+                        <label for="math-concept-input" class="block text-gray-700 text-sm font-medium mb-2">Concepto a explicar (ej: "Teorema de Pitágoras", "Derivadas", "Números Complejos")</label>
+                        <textarea id="math-concept-input" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200" placeholder="Escribe el concepto matemático que quieres entender..."></textarea>
+                    </div>
+                    <button id="explain-button" class="w-full bg-blue-600 text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-blue-700 transition duration-300 shadow-md flex items-center justify-center">
+                        <span id="button-text">Explicar Concepto ✨</span>
+                        <span id="loading-spinner" class="hidden animate-spin h-5 w-5 border-4 border-white border-t-transparent rounded-full ml-3"></span>
+                    </button>
+                    <div id="explanation-output" class="mt-8 text-gray-800 text-base hidden">
+                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-12">
+            <div class="lg:w-1/2 flex justify-center">
+                <img src="images/Rod Profile.jpg" alt="Foto de Rodolfo Cantillana" class="rounded-full shadow-2xl w-64 h-64 md:w-80 md:h-80 object-cover border-4 border-blue-200">
+            </div>
+            <div class="lg:w-1/2 text-center lg:text-left">
+                <h2 class="text-4xl font-bold text-blue-800 mb-6">Sobre Pulso Matemático</h2>
+                <p class="text-lg text-gray-700 leading-relaxed mb-4">
+                    Hola, soy Rodolfo Cantillana, el rostro detrás de Pulso Matemático. Mi pasión es desmitificar las matemáticas y hacerlas accesibles para todos. Con más de 7 años de experiencia en la enseñanza, he trabajado con cientos de estudiantes, ayudándolos a superar sus miedos y alcanzar sus metas académicas.
+                </p>
+                <p class="text-lg text-gray-700 leading-relaxed">
+                    Mi metodología se basa en la comprensión profunda, la práctica constante y una fuerte adaptación a cada estilo de aprendizaje. Creo firmemente que con el enfoque correcto y el apoyo adecuado, ¡cualquiera puede dominar las matemáticas y obtener excelentes resultados!
+                </p>
+                <p class="text-lg text-gray-700 leading-relaxed mt-4">
+                    Soy Ingeniero Constructor de formación y actualmente estoy estudiando para convertirme en Profesor de Educación Media en Matemática en la Universidad San Sebastián. Esta combinación me permite abordar la enseñanza desde una perspectiva lógica, estructurada y orientada a la resolución de problemas reales.
+                </p>
+                <p class="text-lg text-gray-700 leading-relaxed mt-4">
+                    Mi objetivo es que cada alumno no solo aprenda, sino que realmente entienda las matemáticas, disfrute el proceso y construya una base sólida para su futuro académico y profesional.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="py-16 md:py-24 bg-blue-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center text-blue-800 mb-12">Lo que dicen nuestros alumnos</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-blue-100">
+                    <p class="text-gray-700 italic mb-6">
+                        "Las clases de Pulso Matemático fueron clave para mi PAES. Pasé de no entender nada a sentirme seguro y logré el puntaje que necesitaba para mi carrera. ¡Totalmente recomendado!"
+                    </p>
+                    <div class="flex items-center">
+                        <img src="https://placehold.co/60x60/3b82f6/FFFFFF?text=Alumno1" alt="Imagen de Alumno 1" class="w-14 h-14 rounded-full mr-4 object-cover">
+                        <div>
+                            <p class="font-semibold text-gray-900">Sofía R.</p>
+                            <p class="text-sm text-gray-600">Ex-alumna 4° Medio</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-blue-100">
+                    <p class="text-gray-700 italic mb-6">
+                        "Mi hijo mejoró muchísimo en matemáticas desde que toma clases aquí. Su confianza ha subido y ahora le gusta la materia. ¡Un gran profesor!"
+                    </p>
+                    <div class="flex items-center">
+                        <img src="https://placehold.co/60x60/3b82f6/FFFFFF?text=Alumno2" alt="Imagen de Alumno 2" class="w-14 h-14 rounded-full mr-4 object-cover">
+                        <div>
+                            <p class="font-semibold text-gray-900">Carlos M.</p>
+                            <p class="text-sm text-gray-600">Apoderado 8° Básico</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-blue-100">
+                    <p class="text-gray-700 italic mb-6">
+                        "La metodología es súper clara y paciente. Me ayudó a entender conceptos que antes se me hacían imposibles. ¡Gracias Pulso Matemático!"
+                    </p>
+                    <div class="flex items-center">
+                        <img src="https://placehold.co/60x60/3b82f6/FFFFFF?text=Alumno3" alt="Imagen de Alumno 3" class="w-14 h-14 rounded-full mr-4 object-cover">
+                        <div>
+                            <p class="font-semibold text-gray-900">Javiera P.</p>
+                            <p class="text-sm text-gray-600">Alumna 2° Medio</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center text-blue-800 mb-12">Contáctanos</h2>
+            <div class="flex flex-col lg:flex-row gap-12 items-center">
+                <div class="lg:w-1/2 w-full bg-blue-50 p-8 rounded-xl shadow-lg border border-blue-100">
+                    <h3 class="text-2xl font-semibold text-blue-800 mb-6">Envíanos un mensaje</h3>
+                    <form id="contact-form"  action="https://formspree.io/f/xrbqdooq" method="POST" class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-gray-700 text-sm font-medium mb-2">Nombre Completo</label>
+                            <input type="text" id="name" name="name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200" placeholder="Tu nombre" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-700 text-sm font-medium mb-2">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200" placeholder="tu.email@ejemplo.com" required>
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-gray-700 text-sm font-medium mb-2">Teléfono (Opcional)</label>
+                            <input type="tel" id="phone" name="phone" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200" placeholder="+56 9 1234 5678">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-gray-700 text-sm font-medium mb-2">Tu Mensaje</label>
+                            <textarea id="message" name="message" rows="5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200" placeholder="Cuéntanos sobre tus necesidades o dudas..." required></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-blue-700 transition duration-300 shadow-md">
+                            Enviar Mensaje
+                        </button>
+                    </form>
+                </div>
+
+                <div class="lg:w-1/2 w-full text-center lg:text-left">
+                    <h3 class="text-2xl font-semibold text-blue-800 mb-6">Información de Contacto</h3>
+                    <div class="space-y-6 text-lg text-gray-700">
+                        <p class="flex items-center justify-center lg:justify-start">
+                            <i class="ph ph-phone text-blue-600 mr-3 text-2xl"></i>
+                            <a href="tel:+56955398707" class="hover:text-blue-700 transition duration-300">+56 9 5539 8707</a>
+                        </p>
+                        <p class="flex items-center justify-center lg:justify-start">
+                            <i class="ph ph-envelope-simple text-blue-600 mr-3 text-2xl"></i>
+                            <a href="mailto:contacto@pulsomatematico.cl" class="hover:text-blue-700 transition duration-300">rodolfo.cantillana@gmail.com</a>
+                        </p>
+                        <p class="flex items-center justify-center lg:justify-start">
+                            <i class="ph ph-map-pin text-blue-600 mr-3 text-2xl"></i>
+                            Clases Online en todo Chile
+                        </p>
+                        <a href="https://wa.me/56955398707" target="_blank" class="whatsapp-button mt-6">
+                            <i class="ph ph-whatsapp-logo text-2xl"></i>
+                            Envíanos un WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition duration-300 hidden">
+        <i class="ph ph-arrow-up text-xl"></i>
+    </button>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto text-center px-4">
+            <p class="mb-4">&copy; 2025 Pulso Matemático. Todos los derechos reservados.</p>
+            <div class="flex justify-center space-x-6">
+                <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                    <i class="ph ph-facebook-logo text-2xl"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                    <i class="ph ph-instagram-logo text-2xl"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                    <i class="ph ph-linkedin-logo text-2xl"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript para el desplazamiento suave de la navegación
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Cierra el menú móvil si está abierto
+                const navLinks = document.getElementById('nav-links');
+                if (navLinks.classList.contains('flex')) {
+                    navLinks.classList.remove('flex');
+                    navLinks.classList.add('hidden');
+                }
+            });
+        });
+
+        // JavaScript para el botón de menú móvil
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const navLinks = document.getElementById('nav-links');
+
+        mobileMenuButton.addEventListener('click', () => {
+            navLinks.classList.toggle('hidden');
+            navLinks.classList.toggle('flex');
+        });
+
+        // JavaScript para el botón "Volver Arriba"
+        const backToTopButton = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 100) { // Muestra el botón después de 300px de scroll
+                backToTopButton.classList.remove('hidden');
+            } else {
+                backToTopButton.classList.add('hidden');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // JavaScript para el formulario de contacto (simulado)
+        const contactForm = document.getElementById('contact-form');
+        const messageBox = document.getElementById('message-box');
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Evita el envío real del formulario
+
+            // Simula el envío de datos
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const message = document.getElementById('message').value;
+
+            console.log('Formulario enviado:');
+            console.log('Nombre:', name);
+            console.log('Email:', email);
+            console.log('Teléfono:', phone);
+            console.log('Mensaje:', message);
+
+            // Muestra un mensaje de confirmación
+            messageBox.textContent = '¡Mensaje enviado con éxito! Te contactaremos pronto.';
+            messageBox.classList.remove('hidden');
+            messageBox.classList.add('show');
+            messageBox.style.backgroundColor = '#4CAF50'; // Verde para éxito
+
+            // Oculta el mensaje después de unos segundos
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+                messageBox.classList.add('hidden');
+            }, 5000);
+
+            // Limpia el formulario
+            contactForm.reset();
+        });
+
+        // Lógica para el Explicador Matemático con IA
+        const explainButton = document.getElementById('explain-button');
+        const mathConceptInput = document.getElementById('math-concept-input');
+        const explanationOutput = document.getElementById('explanation-output');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const buttonText = document.getElementById('button-text');
+
+        explainButton.addEventListener('click', async () => {
+            const concept = mathConceptInput.value.trim();
+            if (!concept) {
+                // Muestra un mensaje si el input está vacío
+                messageBox.textContent = 'Por favor, introduce un concepto matemático para explicar.';
+                messageBox.style.backgroundColor = '#f44336'; // Rojo para error
+                messageBox.classList.remove('hidden');
+                messageBox.classList.add('show');
+                setTimeout(() => {
+                    messageBox.classList.remove('show');
+                    messageBox.classList.add('hidden');
+                }, 3000);
+                return;
+            }
+
+            // Oculta la explicación anterior y muestra el spinner
+            explanationOutput.classList.add('hidden');
+            explanationOutput.textContent = ''; // Limpia el contenido anterior
+            loadingSpinner.classList.remove('hidden');
+            buttonText.textContent = 'Generando...';
+            explainButton.disabled = true; // Deshabilita el botón durante la carga
+
+            try {
+                let chatHistory = [];
+                const prompt = `Explica el concepto matemático de "${concept}" de manera clara, concisa y fácil de entender para un estudiante de secundaria en Chile. Incluye un ejemplo sencillo si es posible.`;
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+                const apiKey = ""; // Si quieres usar modelos que no sean gemini-2.0-flash o imagen-3.0-generate-002, proporciona una clave API aquí. De lo contrario, déjalo como está.
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    explanationOutput.textContent = text;
+                    explanationOutput.classList.remove('hidden');
+                } else {
+                    explanationOutput.textContent = 'No se pudo generar una explicación. Intenta con otro concepto.';
+                    explanationOutput.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Error al llamar a la API de Gemini:', error);
+                explanationOutput.textContent = 'Ocurrió un error al intentar explicar el concepto. Por favor, inténtalo de nuevo más tarde.';
+                explanationOutput.classList.remove('hidden');
+            } finally {
+                loadingSpinner.classList.add('hidden');
+                buttonText.textContent = 'Explicar Concepto ✨';
+                explainButton.disabled = false; // Habilita el botón nuevamente
+            }
+        });
+    </script>
+</body>
+</html>
