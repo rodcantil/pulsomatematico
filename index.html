@@ -403,40 +403,40 @@
             });
         });
 
-        // JavaScript para el formulario de contacto (simulado)
-        const contactForm = document.getElementById('contact-form');
-        const messageBox = document.getElementById('message-box');
+        // // JavaScript para el formulario de contacto (simulado)
+        // const contactForm = document.getElementById('contact-form');
+        // const messageBox = document.getElementById('message-box');
 
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Evita el envío real del formulario
+        // contactForm.addEventListener('submit', function(e) {
+        //     e.preventDefault(); // Evita el envío real del formulario
 
-            // Simula el envío de datos
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const message = document.getElementById('message').value;
+        //     // Simula el envío de datos
+        //     const name = document.getElementById('name').value;
+        //     const email = document.getElementById('email').value;
+        //     const phone = document.getElementById('phone').value;
+        //     const message = document.getElementById('message').value;
 
-            console.log('Formulario enviado:');
-            console.log('Nombre:', name);
-            console.log('Email:', email);
-            console.log('Teléfono:', phone);
-            console.log('Mensaje:', message);
+        //     console.log('Formulario enviado:');
+        //     console.log('Nombre:', name);
+        //     console.log('Email:', email);
+        //     console.log('Teléfono:', phone);
+        //     console.log('Mensaje:', message);
 
-            // Muestra un mensaje de confirmación
-            messageBox.textContent = '¡Mensaje enviado con éxito! Te contactaremos pronto.';
-            messageBox.classList.remove('hidden');
-            messageBox.classList.add('show');
-            messageBox.style.backgroundColor = '#4CAF50'; // Verde para éxito
+        //     // Muestra un mensaje de confirmación
+        //     messageBox.textContent = '¡Mensaje enviado con éxito! Te contactaremos pronto.';
+        //     messageBox.classList.remove('hidden');
+        //     messageBox.classList.add('show');
+        //     messageBox.style.backgroundColor = '#4CAF50'; // Verde para éxito
 
-            // Oculta el mensaje después de unos segundos
-            setTimeout(() => {
-                messageBox.classList.remove('show');
-                messageBox.classList.add('hidden');
-            }, 5000);
+        //     // Oculta el mensaje después de unos segundos
+        //     setTimeout(() => {
+        //         messageBox.classList.remove('show');
+        //         messageBox.classList.add('hidden');
+        //     }, 5000);
 
-            // Limpia el formulario
-            contactForm.reset();
-        });
+        //     // Limpia el formulario
+        //     contactForm.reset();
+        // });
 
         // Lógica para el Explicador Matemático con IA
         const explainButton = document.getElementById('explain-button');
